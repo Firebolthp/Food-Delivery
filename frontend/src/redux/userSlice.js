@@ -61,6 +61,13 @@ const userSlice = createSlice({
     removeCartItem: (state, action) => {
       state.cartItems = state.cartItems.filter(i => i.id !== action.payload)
       state.totalAmount = state.cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0)
+    },
+
+    setMyOrders: (state, action) => {
+      state.myOrders = action.payload
+    },
+    addMyOrder: (state, action) => {
+      state.myOrders = [action.payload, ...state.myOrders]
     }
 
   }
