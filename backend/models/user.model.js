@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const userSchema = new mongoose.Schema({
     fullName: {
@@ -8,31 +9,47 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique:true
     },
-    password: {
+    password:{
         type: String,
     },
-    mobile: {
+    mobile:{
         type: String,
-        required: true,
+        required: true, 
     },
-    role: {
-        type: String,
-        enum: ["user", "owner", "deliveryBoy"],
-        required: true
+    role:{
+        type:String,
+        enum:["user","owner","deliveryBoy"],
+        required:true
     },
-    resetOtp: {
-        type: String
+    resetOtp:{
+        type:String
     },
-    isOtpVerified: {
-        type: Boolean,
-        default: false
+    isOtpVerified:{
+        type:Boolean,
+        default:false
     },
-    otpExpires: {
-        type: Date
-    }
-}, { timestamp: true })
+    otpExpires:{
+        type:Date
+    },
+    socketId:{
+     type:String,
+     
+    },
+    isOnline:{
+        type:Boolean,
+        default:false
+    },
+   location:{
+type:{type:String,enum:['Point'],default:'Point'},
+coordinates:{type:[Number],default:[0,0]}
+   }
+  
+}, { timestamps: true })
 
-const User = mongoose.model("User", userSchema)
+userSchema.index({location:'2dsphere'})
+
+
+const User=mongoose.model("User",userSchema)
 export default User
